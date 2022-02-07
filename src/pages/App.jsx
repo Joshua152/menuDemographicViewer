@@ -5,7 +5,7 @@ import Viewer from '../components/Viewer';
 export default function App() {
     return (
         <div className='flex flex-col h-screen'>
-            <Title />
+            <Title title="Black Population in Illinoi" linkText='Go to Info' link='/info'/>
             <Viewer />
         </div>
     );
