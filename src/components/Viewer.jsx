@@ -5,9 +5,8 @@ import DeckGL from '@deck.gl/react';
 import {GeoJsonLayer, PolygonLayer} from '@deck.gl/layers';
 import {LightingEffect, AmbientLight, _SunLight as SunLight} from '@deck.gl/core';
 import {scaleThreshold} from 'd3-scale';
-import Slider from '../components/Slider';
+import Slider from './Slider';
 import '../index.css';
-import { geoGraticule } from 'd3';
 
 const geoUrl = require('../data/us-county-boundaries.geojson')
 const dataUrls = [
@@ -17,24 +16,21 @@ const dataUrls = [
 ]
 
 export default function Test({data: geo = geoUrl}) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [map, setMap] = useState(null);
 
   // const [year, setYear] = useState(2020);
 
   useEffect(() => {
-    setMap(null);
-    getData(2020);
+    // setMap(null);
+    // getData(2020);
     // setData(json);
+
+    changeYear(2020)
   }, []);
 
   useEffect(() => {
-    console.log("set: " + layers);
-    
-    console.log("before: " + map)
     setMap(geo);
-
-    console.log("map: " + map);
   }, [data]);
 
   const getData = async (year) => {
@@ -42,15 +38,9 @@ export default function Test({data: geo = geoUrl}) {
     const json = await resp.json();
 
     setData(json)
-
-    // console.log("set data: " + JSON.stringify(json));
-
-    // return json;
   }
 
   const getPop = (countyId) => {
-    console.log("get pop: " + data)
-
     let pop = 0;
 
     data.some(el => {
@@ -127,18 +117,16 @@ export default function Test({data: geo = geoUrl}) {
   ];
 
   return (
-    <div className='h-screen flex items-center'>
+    <div className='h-full flex items-center'>
       {/* <h1>{data["data"]}</h1> */}
       <Slider onChange={(year) => changeYear(year)} />
-      {map && 
+      {data && map && 
         <DeckGL
             layers={layers}
             // effects={effects}
             initialViewState={INITIAL_VIEW_STATE}
             controller={true}
             getTooltip={getTooltip}
-            style={{zIndex: -1}}
-            // className='z-0'
           >
             {/* <StaticMap reuseMaps mapStyle={mapStyle} preventStyleDiffing={true} /> */}
         </DeckGL>

@@ -5,14 +5,15 @@ import {
     Routes,
     Route
 } from 'react-router-dom';
-import Viewer from './pages/Viewer';
-import Test from './pages/Test';
+import App from './pages/App';
+import Info from './pages/Info';
 
 const rootElement = document.getElementById("root");
 render(
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Viewer />} />
+            <Route path='/' element={<App />} />
+            <Route path='/info' element={<Info />} />
         </Routes>
     </BrowserRouter>, 
     rootElement
