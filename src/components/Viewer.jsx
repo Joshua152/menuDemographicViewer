@@ -13,7 +13,11 @@ const dataUrls = [
 export default function Test() {
   const [data, setData] = useState({});
   const [map, setMap] = useState(null);
-  const [year, setYear] = useState(2020);
+  const [year, setYear] = useState(2000);
+
+  let updateInMap = useRef(true);
+  let updateInData = useRef(true);
+  let updateInYear = useRef(true);
 
   useEffect(() => {
     (async () => {
@@ -22,23 +26,36 @@ export default function Test() {
       const resp = await fetch('./data/us-county-boundaries.json');
       const json = await resp.json();
     
+      updateInMap.current = true;
       setMap(json);
     })()
   }, []);
 
   useEffect(() => {
-    updateMap();
+    if(updateInMap.current) {
+      updateMap();
+
+      updateInMap.current = false;
+    }
   }, [map]);
 
   useEffect(() => {
-    updateMap();
+    if(updateInData.current) {
+      updateMap();
+
+      updateInData = false;
+    }
   }, [data])
 
   useEffect(() => {
     (async () => {
       await getData();
       
-      updateMap();
+      if(updateInYear) {
+        updateMap();
+
+        updateInYear = false;
+      }
     })()
   }, [year]);
 
@@ -46,7 +63,8 @@ export default function Test() {
     if(map === null)
       return;
 
-    const temp = map;
+    const temp = JSON.parse(JSON.stringify(map));
+    // const temp = map;
 
     temp.features.forEach(el => {
       const cId = el.properties.countyfp;
@@ -75,6 +93,7 @@ export default function Test() {
     d[year] = json;
     
     setData(d);
+    updateInData = true;
 
     return d[year];
   }
@@ -154,7 +173,7 @@ export default function Test() {
 
   return (
     <div className='h-full flex items-center'>
-      <Slider onChange={(year) => setYear(year)} />
+      <Slider onChange={(year) => {updateInYear.current = true; setYear(year);}} />
       {data !== [] &&// map &&
         <DeckGL
             layers={layers}
