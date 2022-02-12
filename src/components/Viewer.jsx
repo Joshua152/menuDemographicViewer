@@ -172,7 +172,7 @@ export default function Test() {
   ];
 
   return (
-    <div className='h-full flex items-center'>
+    <div className='h-screen flex items-center overflow-hidden'>
       <Slider onChange={(year) => {updateInYear.current = true; setYear(year);}} />
       {data !== [] &&// map &&
         <DeckGL

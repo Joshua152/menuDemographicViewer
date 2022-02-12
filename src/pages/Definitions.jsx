@@ -2,15 +2,15 @@ import React from 'react';
 import Title from '../components/Title';
 import Nav from '../components/Nav';
 
-export default function Info() {
+export default function() {
     return (
-        <div className='flex flex-col items-center justify-center'>
-            <Title title='Info' linkText='Go to Viewer' link='/'/>
+        <div>
+            <Title title='Definitions' linkText='Go to Viewer' link='/' />
 
             <div className='flex flex-row w-full'>
                 <Nav links={[
-                        {text: 'Connections', link: '/connections'},
-                        {text: 'Definitions', link: '/definitions'}
+                        {text: 'Info', link: '/info'},
+                        {text: 'Connections', link: '/connections'}
                 ]}/>
 
                 <div className='mt-10 mr-10'>
@@ -18,5 +18,5 @@ export default function Info() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
