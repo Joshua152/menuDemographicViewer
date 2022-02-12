@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactSlider from 'react-slider';
 
 export default function Slider({onChange}) {
-    const [value, setValue] = useState(2000)
+    const [value, setValue] = useState(1990)
 
     return (
         <div style={{zIndex: 1}} className='flex items-center justify-ceter ml-5 p-5 bg-white rounded-md drop-shadow-lg'>
@@ -15,10 +15,10 @@ export default function Slider({onChange}) {
                     setValue(val);
                     onChange(val);
                 }}
-                min={2000}
+                min={1990}
                 max={2020}
                 step={10}
-                marks={[2000, 2010, 2020]}
+                marks={[1990, 2000, 2010, 2020]}
                 orientation='vertical'
             />
             <h1 className='font-bold text-3xl text-[#ba1531]'>{value}</h1>

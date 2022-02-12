@@ -10,9 +10,10 @@ import '../index.css';
 
 const geoUrl = require('../data/us-county-boundaries.geojson')
 const dataUrls = [
+  './data/1950.json',
   'https://api.census.gov/data/2000/dec/sf1?get=P003004,GEO_ID&for=county:*&in=state:17',
   'https://api.census.gov/data/2010/dec/pl?get=P001004,GEO_ID&for=county:*&in=state:17',
-  'https://api.census.gov/data/2020/dec/pl?get=P1_004N,GEO_ID&for=county:*&in=state:31'
+  'https://api.census.gov/data/2020/dec/pl?get=P1_004N,GEO_ID&for=county:*&in=state:17'
 ]
 
 export default function Test({data: geo = geoUrl}) {
@@ -26,7 +27,7 @@ export default function Test({data: geo = geoUrl}) {
     // getData(2020);
     // setData(json);
 
-    changeYear(2020)
+    changeYear(1990)
   }, []);
 
   useEffect(() => {
@@ -35,7 +36,10 @@ export default function Test({data: geo = geoUrl}) {
 
   const getData = async (year) => {
     const resp = await fetch(dataUrls[(year - 2000) / 10]);
-    const json = await resp.json();
+    const json = resp;
+
+    if(year <=2000)
+      json = await resp.json();
 
     setData(json)
   }
