@@ -5,15 +5,16 @@ import Slider from './Slider';
 import '../index.css';
 
 const dataUrls = [
+  './data/1950.json',
   'https://api.census.gov/data/2000/dec/sf1?get=P003004,GEO_ID&for=county:*&in=state:17',
   'https://api.census.gov/data/2010/dec/pl?get=P001004,GEO_ID&for=county:*&in=state:17',
   'https://api.census.gov/data/2020/dec/pl?get=P1_004N,GEO_ID&for=county:*&in=state:17'
 ]
 
-export default function Test() {
+export default function Test({onChangeYear}) {
   const [data, setData] = useState({});
   const [map, setMap] = useState(null);
-  const [year, setYear] = useState(2000);
+  const [year, setYear] = useState(1990);
 
   let updateInMap = useRef(true);
   let updateInData = useRef(true);
@@ -85,7 +86,7 @@ export default function Test() {
     if(data !== null && data.hasOwnProperty(year))
       return true;
 
-    const resp = await fetch(dataUrls[(year - 2000) / 10]);
+    const resp = await fetch(dataUrls[(year - 1990) / 10]);
     const json = await resp.json();
 
     let d = data;
@@ -173,7 +174,7 @@ export default function Test() {
 
   return (
     <div className='h-screen flex items-center overflow-hidden'>
-      <Slider onChange={(year) => {updateInYear.current = true; setYear(year);}} />
+      <Slider onChange={(year) => {updateInYear.current = true; setYear(year); onChangeYear(year)}} />
       {data !== [] &&// map &&
         <DeckGL
             layers={layers}
