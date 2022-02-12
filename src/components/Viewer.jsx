@@ -1,64 +1,100 @@
-import React, {useEffect, useState} from 'react';
-import {render} from 'react-dom';
-import {StaticMap} from 'react-map-gl';
+import React, {useEffect, useRef, useState} from 'react';
 import DeckGL from '@deck.gl/react';
-import {GeoJsonLayer, PolygonLayer} from '@deck.gl/layers';
-import {LightingEffect, AmbientLight, _SunLight as SunLight} from '@deck.gl/core';
-import {scaleThreshold} from 'd3-scale';
+import {GeoJsonLayer} from '@deck.gl/layers';
 import Slider from './Slider';
 import '../index.css';
 
-const geoUrl = require('../data/us-county-boundaries.geojson')
 const dataUrls = [
   'https://api.census.gov/data/2000/dec/sf1?get=P003004,GEO_ID&for=county:*&in=state:17',
   'https://api.census.gov/data/2010/dec/pl?get=P001004,GEO_ID&for=county:*&in=state:17',
-  'https://api.census.gov/data/2020/dec/pl?get=P1_004N,GEO_ID&for=county:*&in=state:31'
+  'https://api.census.gov/data/2020/dec/pl?get=P1_004N,GEO_ID&for=county:*&in=state:17'
 ]
 
-export default function Test({data: geo = geoUrl}) {
-  const [data, setData] = useState(null);
+export default function Test() {
+  const [data, setData] = useState({});
   const [map, setMap] = useState(null);
-
-  // const [year, setYear] = useState(2020);
+  const [year, setYear] = useState(2020);
 
   useEffect(() => {
-    // setMap(null);
-    // getData(2020);
-    // setData(json);
+    (async () => {
+      await getData();
 
-    changeYear(2020)
+      const resp = await fetch('./data/us-county-boundaries.json');
+      const json = await resp.json();
+    
+      setMap(json);
+    })()
   }, []);
 
   useEffect(() => {
-    setMap(geo);
-  }, [data]);
+    updateMap();
+  }, [map]);
 
-  const getData = async (year) => {
+  useEffect(() => {
+    updateMap();
+  }, [data])
+
+  useEffect(() => {
+    (async () => {
+      await getData();
+      
+      updateMap();
+    })()
+  }, [year]);
+
+  const updateMap = () => {
+    if(map === null)
+      return;
+
+    const temp = map;
+
+    temp.features.forEach(el => {
+      const cId = el.properties.countyfp;
+
+      data[year.toString()].some(el2 => {
+        if(+el2[3] === +cId) {
+          el.properties.pop = el2[0].toString();
+
+          return true;
+        }
+      }); 
+    });
+
+    setMap(temp);
+  }
+
+  const getData = async () => {
+    if(data !== null && data.hasOwnProperty(year))
+      return true;
+
     const resp = await fetch(dataUrls[(year - 2000) / 10]);
     const json = await resp.json();
 
-    setData(json)
+    let d = data;
+
+    d[year] = json;
+    
+    setData(d);
+
+    return d[year];
   }
 
   const getPop = (countyId) => {
-    let pop = 0;
+    if(data[year] === undefined)
+      return "loading...";
 
-    data.some(el => {
-      const cId = el[3];
+    const popMap = data[year];
+    let pop = -1;
 
-      if(+countyId === +cId) {
+    popMap.some(el => {
+      if(+el[3] === +countyId) {
         pop = +el[0];
-
+      
         return true;
       }
     });
 
     return pop;
-  }
-
-  const changeYear = (year) => {
-    setMap(null);
-    getData(year)
   }
 
   const getTooltip = ({object}) => {
@@ -103,7 +139,7 @@ export default function Test({data: geo = geoUrl}) {
     // }),
     new GeoJsonLayer({
       id: 'geojson',
-      data: geo,
+      data: map,
       opacity: 0.8,
       stroked: false,
       filled: true,
@@ -118,9 +154,8 @@ export default function Test({data: geo = geoUrl}) {
 
   return (
     <div className='h-full flex items-center'>
-      {/* <h1>{data["data"]}</h1> */}
-      <Slider onChange={(year) => changeYear(year)} />
-      {data && map && 
+      <Slider onChange={(year) => setYear(year)} />
+      {data !== [] &&// map &&
         <DeckGL
             layers={layers}
             // effects={effects}
