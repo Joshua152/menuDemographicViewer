@@ -9,7 +9,6 @@ export default function() {
 
             <div className='flex flex-row w-full'>
                 <Nav links={[
-                        {text: 'Info', link: '/info'},
                         {text: 'Connections', link: '/connections'}
                 ]}/>
 

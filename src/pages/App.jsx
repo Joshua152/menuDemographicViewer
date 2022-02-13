@@ -7,7 +7,7 @@ export default function App() {
 
     return (
         <div className='flex flex-col h-screen overflow-hidden'>
-            <Title title={title} linkText='Go to Info' link='/info'/>
+            <Title title={title} linkText='Go to Connections' link='/connections'/>
             <Viewer onChangeYear={(year) => {
                 if(year <= 1990)
                     setTitle("Non-White Population in Illinois");
