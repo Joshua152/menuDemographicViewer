@@ -5,10 +5,11 @@ import Nav from '../components/Nav';
 export default function Connections() {
     return (
         <div>
-            <Title title='Connections' linkText='Go to Viewer' link='/' />
+            <Title title='Connections' linkText='Go to Viewer' link='/demographic' />
 
             <div className='flex flex-row w-full'>
                 <Nav links={[
+                        {text: 'Home', link: '/'},
                         {text: 'Definitions', link: '/definitions'}
                 ]}/>
 
