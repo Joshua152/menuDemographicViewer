@@ -5,17 +5,19 @@ import {
     Routes,
     Route
 } from 'react-router-dom';
-import App from './pages/App';
-import Info from './pages/Info';
-import Raisinconnection from './pages/Raisinconnection';
+import Demographic from './pages/Demographic';
+import Connections from './pages/Connections';
+import Definitions from './pages/Definitions';
+import Home from './pages/Home';
 
 const rootElement = document.getElementById("root");
 render(
     <BrowserRouter>
         <Routes>
-            <Route path='/' element={<App />} />
-            <Route path='/info' element={<Info />} />
-            <Route path = '/raisinconnection' element = {<Raisinconnection />} />
+            <Route path = '/' element = {<Home/>} />
+            <Route path='/demographic' element={<Demographic />} />
+            <Route path='/connections' element={<Connections />} />
+            <Route path='/definitions' element={<Definitions />} />
         </Routes>
     </BrowserRouter>, 
     rootElement

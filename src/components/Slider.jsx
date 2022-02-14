@@ -21,7 +21,7 @@ export default function Slider({onChange}) {
                 marks={[1990, 2000, 2010, 2020]}
                 orientation='vertical'
             />
-            <h1 className='font-bold text-3xl text-[#ba1531]'>{value}</h1>
+            <h1 className='font-bold text-3xl text-[#ba1531]'>{value === 1990 ? 1950 : value}</h1>
         </div>
     )
 }
