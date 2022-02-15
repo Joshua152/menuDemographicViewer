@@ -20,7 +20,7 @@ export default function Connections() {
                         <br/>
                         In <i>Raisin in the Sun</i>, Lorraine Hansberry's play regarding the frustrated dreams of black Americans, this dynamic of redlining and segregation is depicted in the lives and hopes of the Younger family. In one scene, Karl Lindner (a white representative from the Clybourne Park Neighborhood Association) offers to pay the Younger family not to move to this white neighborhood. He suggests that "People can get awful worked up when they feel that their whole way of life and everything they've ever worked for is threatened" (Hansberry). Although Lindner never explicitly states that the Younger family's presence would harm the neighborhood's property values, he does suggest that the Younger family will "threaten" what the community has worked for. Potentially due to redlining, Lindner and white citizens like him do not want to affect their ability to gain loans and other benefits just because of one black family moving into their neighborhood. Institutional racism is often created when systems benefit one race over another. Housing discrimination, as seen in the play and in Hansberry’s own life, creates and encourages persecution of minorities and uneven distribution of wealth.
                     </div>
-                    <div className = 'mt-[40px] flex flex-row justify-center items-center'>
+                    <div className = 'mt-[40px] flex flex-wrap justify-center items-center'>
                         <img className="box-content h-[300px]  p-4 justify-self-center" src="pictures/redlining.jpeg"/>
                         <img className="box-content h-[300px] p-4 justify-self-center" src="pictures/clybourne2.jpeg"/>
                     </div>
